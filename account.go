@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"net/http"
+	"net/url"
 	"os"
 
 	"github.com/codegangsta/cli"
@@ -45,6 +48,21 @@ func NewCreateAccountCommand() cli.Command {
 			fmt.Println(email)
 			fmt.Println(username)
 			fmt.Println(password)
+
+			urlStr := "http://127.0.0.1:8080/v1/account"
+			data := url.Values{}
+			data.Set("id", id)
+			data.Add("email", email)
+			data.Add("username", username)
+			data.Add("password", password)
+
+			client := &http.Client{}
+			r, _ := http.NewRequest("POST", urlStr, bytes.NewBufferString(data.Encode()))
+			//r.Header.Add("Authorization", "auth_token=\"XXXXXXX\"")
+			//r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+			resp, _ := client.Do(r)
+			fmt.Println(resp.Status)
 
 			os.Exit(0)
 		},
