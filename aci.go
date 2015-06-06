@@ -29,7 +29,7 @@ func main() {
 	}
 
 	app.Commands = []cli.Command{
-		NewAccountCommand(),
+		NewCreateAccountCommand(),
 	}
 
 	app.Run(os.Args)
